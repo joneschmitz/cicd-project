@@ -17,7 +17,7 @@ pipeline {
       }    
       stage('Maven compile')    {    
         steps {      
-          sh ' mvn clean comp ile war:war'    
+          sh ' mvn clean compile war:war'    
         }    
       }    
       stage('Test')    {    
@@ -33,7 +33,9 @@ pipeline {
     }
     post {
       always {
-        
+        sh 'echo SUCCESS'
+      }
+      failure {
         //emailext(body: content, mimeType: 'text/html', replyTo: '$DEFAULT_REPLYTO', subject: subject, to: to, attachLog: true )
         
         emailext body: content, recipientProviders: [culprits(), developers(), requestor()], subject: subject, to: '$DEFAULT_REPLYTO', mimeType: 'text/html', attachLog: true
