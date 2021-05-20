@@ -9,8 +9,8 @@ pipeline {
   tools {    
     maven 'Maven'  
   }  
-  try {
-    stages {   
+    stages {  
+  try { 
       stage('Git checkout')    {     
         steps {
           sh 'echo $PWD'
@@ -33,7 +33,6 @@ pipeline {
           deploy adapters: [tomcat9(credentialsId: 'Tomcat-Token', path: '', url: 'http://ec2-3-15-222-123.us-east-2.compute.amazonaws.com:8081/manager')], contextPath: null, war: '**/*.war'
         }
       }
-    }
   } catch(e) {
     // mark build as failed
     currentBuild.result = "FAILURE";
@@ -48,4 +47,5 @@ pipeline {
          to: to, attachLog: true )
      }
   }
+    }
 }
