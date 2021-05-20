@@ -21,7 +21,7 @@ pipeline {
       stage('Maven compile')    {    
         steps {      
           sh ' mvn clean compile war:war'    
-      }    
+        }    
       }    
       stage('Test')    {    
         steps {      
@@ -29,9 +29,9 @@ pipeline {
         }        
       }
       stage('Deploy') {
-          steps {
-              deploy adapters: [tomcat9(credentialsId: 'Tomcat-Token', path: '', url: 'http://ec2-3-15-222-123.us-east-2.compute.amazonaws.com:8081/manager')], contextPath: null, war: '**/*.war'
-          }
+        steps {
+          deploy adapters: [tomcat9(credentialsId: 'Tomcat-Token', path: '', url: 'http://ec2-3-15-222-123.us-east-2.compute.amazonaws.com:8081/manager')], contextPath: null, war: '**/*.war'
+        }
       }
     }
   } catch(e) {
@@ -46,5 +46,6 @@ pipeline {
       emailext(body: content, mimeType: 'text/html',
          replyTo: '$DEFAULT_REPLYTO', subject: subject,
          to: to, attachLog: true )
-    }
+     }
+  }
 }
