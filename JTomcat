@@ -1,6 +1,9 @@
 pipeline {  
   agent any 
   
+  def subject = "${env.JOB_NAME} - Build #${env.BUILD_NUMBER} ${currentBuild.result}"
+  def content = '${JELLY_SCRIPT,template="html"}'
+  
   tools {    
     maven 'Maven'  
   }  
@@ -30,8 +33,7 @@ pipeline {
     }
     post {
       always {
-        subject = "${env.JOB_NAME} - Build #${env.BUILD_NUMBER} ${currentBuild.result}"
-        content = '${JELLY_SCRIPT,template="html"}'
+        
         //emailext(body: content, mimeType: 'text/html', replyTo: '$DEFAULT_REPLYTO', subject: subject, to: to, attachLog: true )
         
         emailext body: content, recipientProviders: [culprits(), developers(), requestor()], subject: subject, to: 'joneschmitz@gmail.com', mimeType: 'text/html', attachLog: true
