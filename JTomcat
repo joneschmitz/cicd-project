@@ -36,7 +36,7 @@ pipeline {
         
         //emailext(body: content, mimeType: 'text/html', replyTo: '$DEFAULT_REPLYTO', subject: subject, to: to, attachLog: true )
         
-        emailext body: content, recipientProviders: [culprits(), developers(), requestor()], subject: subject, to: '$DEFAULT_REPLYTO', mimeType: 'text/html', attachLog: true
+        emailext body: content, recipientProviders: [culprits(), developers(), requestor()], subject: subject, to: 'joneschmitz@gmail.com', mimeType: 'text/html', attachLog: true
       }
     }
 }
