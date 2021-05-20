@@ -1,8 +1,8 @@
-pipeline {  
-  agent any 
-  
   def subject = "${env.JOB_NAME} - Build #${env.BUILD_NUMBER} ${currentBuild.result}"
   def content = '${JELLY_SCRIPT,template="html"}'
+  
+pipeline {  
+  agent any
   
   tools {    
     maven 'Maven'  
