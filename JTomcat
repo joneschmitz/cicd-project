@@ -34,6 +34,7 @@ pipeline {
     post {
       always {
         sh 'echo SUCCESS'
+        emailext body: content, recipientProviders: [culprits(), developers(), requestor()], subject: subject, to: '$DEFAULT_REPLYTO', mimeType: 'text/html', attachLog: true
       }
       failure {
         //emailext(body: content, mimeType: 'text/html', replyTo: '$DEFAULT_REPLYTO', subject: subject, to: to, attachLog: true )
