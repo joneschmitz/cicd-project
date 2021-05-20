@@ -17,7 +17,7 @@ pipeline {
       }    
       stage('Maven compile')    {    
         steps {      
-          sh ' mvn clean co mpile war:war'    
+          sh ' mvn clean compile war:war'    
         }    
       }    
       stage('Test')    {    
