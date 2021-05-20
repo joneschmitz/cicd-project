@@ -1,16 +1,10 @@
 pipeline {  
   agent any 
-  def to = emailextrecipients([
-          [$class: 'CulpritsRecipientProvider'],
-          [$class: 'DevelopersRecipientProvider'],
-          [$class: 'RequesterRecipientProvider']
-  ])
   
   tools {    
     maven 'Maven'  
   }  
-    stages {  
-  try { 
+    stages {
       stage('Git checkout')    {     
         steps {
           sh 'echo $PWD'
@@ -33,19 +27,14 @@ pipeline {
           deploy adapters: [tomcat9(credentialsId: 'Tomcat-Token', path: '', url: 'http://ec2-3-15-222-123.us-east-2.compute.amazonaws.com:8081/manager')], contextPath: null, war: '**/*.war'
         }
       }
-  } catch(e) {
-    // mark build as failed
-    currentBuild.result = "FAILURE";
-    // set variables
-    def subject = "${env.JOB_NAME} - Build #${env.BUILD_NUMBER} ${currentBuild.result}"
-    def content = '${JELLY_SCRIPT,template="html"}'
-
-    // send email
-    if(to != null && !to.isEmpty()) {
-      emailext(body: content, mimeType: 'text/html',
-         replyTo: '$DEFAULT_REPLYTO', subject: subject,
-         to: to, attachLog: true )
-     }
-  }
+    }
+    post {
+      always {
+        def subject = "${env.JOB_NAME} - Build #${env.BUILD_NUMBER} ${currentBuild.result}"
+        def content = '${JELLY_SCRIPT,template="html"}'
+        //emailext(body: content, mimeType: 'text/html', replyTo: '$DEFAULT_REPLYTO', subject: subject, to: to, attachLog: true )
+        
+        emailext body: content, recipientProviders: [culprits(), developers(), requestor()], subject: subject, to: 'joneschmitz@gmail.com', mimeType: 'text/html', attachLog: true
+      }
     }
 }
