@@ -11,8 +11,8 @@ pipeline {
     stages {
       stage('Git checkout')    {     
         steps {
-          sh 'echo $PWD'
-          sh 'which git'
+          //sh 'echo $PWD'
+          //sh 'which git'
           git 'https://github.com/joneschmitz/cicd-project.git'     
         }    
       }    
