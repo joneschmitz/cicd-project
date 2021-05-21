@@ -10,19 +10,19 @@ pipeline {
     stages {
       stage('Git checkout')    {     
         steps {
-          sh 'echo $PWD'
-          sh 'which git'
+          //sh 'echo $PWD'
+          //sh 'which git'
           git 'https://github.com/joneschmitz/cicd-project.git'     
         }    
       }    
       stage('Maven compile')    {    
         steps {      
-          sh ' mvn clean compile war:war'    
+          bat ' mvn clean compile war:war'    
         }    
       }    
       stage('Test')    {    
         steps {      
-          sh 'mvn test'    
+          bat 'mvn test'    
         }        
       }
       stage('Deploy') {
@@ -33,7 +33,7 @@ pipeline {
     }
     post {
       always {
-        sh 'echo SUCCESS'
+        //sh 'echo SUCCESS'
         emailext body: content, recipientProviders: [culprits(), developers(), requestor()], subject: subject, to: '$DEFAULT_REPLYTO', mimeType: 'text/html', attachLog: true
       }
       failure {
