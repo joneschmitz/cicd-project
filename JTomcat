@@ -37,7 +37,7 @@ pipeline {
         emailext body: content, recipientProviders: [culprits(), developers(), requestor()], subject: subject, to: '$DEFAULT_REPLYTO', mimeType: 'text/html', attachLog: true
       }
       success {
-        build 'Test Exercise 1'
+        build 'Health Check Exercise 1'
       }
       failure {
         //emailext(body: content, mimeType: 'text/html', replyTo: '$DEFAULT_REPLYTO', subject: subject, to: to, attachLog: true )
